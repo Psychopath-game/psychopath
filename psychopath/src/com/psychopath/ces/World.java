@@ -81,6 +81,7 @@ public class World {
 				handler.added(e);
 			}
 		});
+		added.removeAll();
 		
 		dispatcher(removed, new Notifier() {
 			@Override
@@ -88,6 +89,7 @@ public class World {
 				handler.removed(e);
 			}
 		});
+		removed.removeAll();
 		
 		dispatcher(changed, new Notifier() {
 			@Override
@@ -95,6 +97,7 @@ public class World {
 				handler.changed(e);
 			}
 		});
+		changed.removeAll();
 		
 		dispatcher(enabled, new Notifier() {
 			@Override
@@ -102,6 +105,7 @@ public class World {
 				handler.enabled(e);
 			}
 		});
+		enabled.removeAll();
 		
 		dispatcher(disabled, new Notifier() {
 			@Override
@@ -109,6 +113,7 @@ public class World {
 				handler.disabled(e);
 			}
 		});
+		disabled.removeAll();
 		
 		// Certains managers ont besoin d'un appel particulier
 		cm.clean();

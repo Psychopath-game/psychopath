@@ -7,8 +7,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import com.psychopath.ces.Component;
+import com.psychopath.ces.ComponentType;
 import com.psychopath.ces.Entity;
 import com.psychopath.ces.World;
+import com.psychopath.components.*;
 
 
 public class PsychopathGame extends BasicGame {
@@ -17,7 +20,7 @@ public class PsychopathGame extends BasicGame {
 	private World world;
 	
 	/**
-	 * Point d'entr�
+	 * Point d'entree
 	 */
 	public static void main(String[] args) throws SlickException {
         new AppGameContainer(new PsychopathGame(), 640, 480, false).start();
@@ -30,8 +33,11 @@ public class PsychopathGame extends BasicGame {
 
 		System.out.println("BEGIN");
 		Entity e = world.createEntity();
+		e.addComponent(new ExampleComponent());
+		ExampleComponent c = (ExampleComponent) e.getComponent(ComponentType.getType(ExampleComponent.class));
+		c.setName("Je m'appelle HENRY");
+		System.out.println(c.getName());
 		e.addToWorld();
-		System.out.println("END");
 	}
 
 	@Override

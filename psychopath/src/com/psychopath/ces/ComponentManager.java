@@ -13,12 +13,12 @@ public class ComponentManager extends Manager {
 	
 	
 	public ComponentManager(){
-		
+		components = new CustomList<CustomList<Component>>(30);
+		entitiesToRemove = new CustomList<Entity>();
 	}
 	
 	
 	public void init(){
-		entitiesToRemove = new CustomList<Entity>();
 	}
 	
 	/** 
@@ -31,7 +31,7 @@ public class ComponentManager extends Manager {
 		CustomList<Component> comp = components.get(type.getIndex());
 		
 		if(comp == null){ // we create the sub-list components at the type Index
-			comp = new CustomList<>();
+			comp = new CustomList<Component>();
 			components.set(comp, type.getIndex());
 		}
 		comp.set(c, e.getId());
@@ -64,6 +64,22 @@ public class ComponentManager extends Manager {
 			return null;
 		return comp.get(e.getId());
 	}
+	
+	/**
+	 * Get all Components of a type
+	 * @param entity
+	 * @param type
+	 * @return
+	 */
+	public CustomList<Component> getComponentsByType(ComponentType type) {
+		CustomList<Component> comp = components.get(type.getIndex());
+		if(comp == null){
+			comp = new CustomList<Component>();
+			components.set(comp, type.getIndex());
+		}
+		return comp;
+	}
+	
 	
 	/**
 	 * Get all Components from an Entity
