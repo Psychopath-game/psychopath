@@ -1,69 +1,113 @@
 package com.psychopath.ces;
 
-import java.util.ArrayList;
-
 import com.psychopath.ces.tools.CustomList;
 
 /**
- * Un système applique des méthodes sur un ensemble d'entités.
+ * Process method on Entities
  * 
- * @example  	La gravité sur les Entity possèdant un composant Gravity.
+ * @example  	La gravité sur les Entity possèdant un composant Gravity doivent être traités par un GravitySystem extends EntitySystem.
  * @author  	Spoke
  *
  */
-abstract public class EntitySystem {
+abstract public class EntitySystem implements IListener {
 	private CustomList<Entity> entities;
 	private boolean active = true;
 	
-	private ArrayList<Integer> allTypes; // all ComponentType needed to use the System
-	private ArrayList<Integer> excludeTypes; // all ComponentTypes which don't permit the use of the system (if one = exclude from system)
-	private ArrayList<Integer> lastType; // last component add to the system check method
+	// TODO: Améliorer le stockage des types pour les performances
+	private CustomList<ComponentType> allTypes; // all ComponentType needed to use the System (the lastType IS NOT INCLUDE INSIDE, you must check it too)
+	private CustomList<ComponentType> excludeTypes; // all ComponentTypes which don't permit the use of the system (if one = exclude from system)
+	private ComponentType lastType; // last component add to the system check method
 	
 	private World world;
 	
 	public EntitySystem(){
+		allTypes = new CustomList<ComponentType>(3);
+		excludeTypes = new CustomList<ComponentType>(2);
 		
+		entities = new CustomList<Entity>();
 	}
+	
+	
+	protected abstract void setTypesConfiguration();
 
 	
 	public final void process(){
+		if(!active){
+			ifInactive();
+			return;
+		}
+		
 		before();
 		start(entities);
 		after();
 	}
 	
-	// Avant de traiter les entités
+	// if inactive
+	protected void ifInactive(){
+	}
+	
+	// before start
 	protected void before(){
-		
 	}
 	
-	// Boucle de traitement des entités
+	// Loop for process Entities
 	protected void start(CustomList<Entity> items){
-		
 	}
 	
-	// Après avoir traité les entités
+	// after start
 	protected void after(){
-		
-	}
-
-	public void verify(Entity e){
-		// Si l'entité correspond on l'ajoute
-		
 	}
 	
-	private void check(Entity e){
-		int entityId = e.getId();
-		
-		
-		if(lastType == null) // error, not initialized
+	protected final void check(Entity e){
+		if(e == null || lastType == null) 
 			return;
 		
+		ComponentManager cm = world.getComponentManager();
+		
 		if(allTypes.size() > 0){ // case : many include types
-			for(int i : allTypes){
-				
+			for(int i = 0; i < allTypes.size(); i++){
+				if(!cm.contains(e, allTypes.get(i)))
+					return;
 			}
 		}
+		
+		if(!cm.contains(e, lastType)) 
+			return;
+		
+		if(excludeTypes.size() > 0){
+			for(int i = 0; i < excludeTypes.size(); i++){
+				if(cm.contains(e, excludeTypes.get(i)))
+					return;
+			}
+		}
+		
+		//Everything is okay
+		entities.add(e);
+	}
+	
+	
+	@Override
+	public void added(Entity e) {
+	}
+
+
+	@Override
+	public void removed(Entity e) {
+	}
+
+
+	@Override
+	public void changed(Entity e) {
+	}
+
+
+	@Override
+	public void enabled(Entity e) {
+	}
+
+
+	@Override
+	public void disabled(Entity e) {
 	}
 	
 	
@@ -75,5 +119,14 @@ abstract public class EntitySystem {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
+
+	public World getWorld() {
+		return world;
+	}
+
+
+	public void setWorld(World world) {
+		this.world = world;
+	}	
 }

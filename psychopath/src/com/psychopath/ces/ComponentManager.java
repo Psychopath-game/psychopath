@@ -7,9 +7,14 @@ import com.psychopath.ces.tools.CustomList;
  * @author Spoke
  *
  */
-public class ComponentManager {
+public class ComponentManager extends Manager {
 	private CustomList<CustomList<Component>> components;
+	private CustomList<Entity> entitiesToRemove;
 	
+	
+	protected void init(){
+		entitiesToRemove = new CustomList<Entity>();
+	}
 	
 	/** 
 	 * Add a component to an Entity (bind)
@@ -73,6 +78,19 @@ public class ComponentManager {
 	}
 	
 	
+	/**
+	 * Remove all entity's components
+	 * @param e
+	 */
+	public void removeAllComponents(Entity e){
+		for(int i = 0; i < components.size(); i++){
+			CustomList<Component> comp = components.get(i);
+			if(comp != null && comp.get(e.getId()) != null)
+				comp.set(null, e.getId());
+		}
+	}
+	
+	
 	
 	/** CONTAINS **/
 	
@@ -90,6 +108,24 @@ public class ComponentManager {
 		CustomList<Component> comp = components.get(type.getIndex());
 		
 		return (comp != null && comp.get(elementId) != null);
+	}
+	
+	
+	/** EVENTS **/
+	@Override
+	public void removed(Entity e){
+		// We don't remove all components of the Entity here, cause it's not fast. We store the Entity and we'll call clean only one time by process !
+		entitiesToRemove.add(e);
+	}
+	// si on delete
+	public void clean(){
+		if(entitiesToRemove.size() == 0)
+			return;
+		
+		for(int i = 0; i < entitiesToRemove.size(); i++){
+			removeAllComponents(entitiesToRemove.get(i));
+		}
+		entitiesToRemove.removeAll();
 	}
 	
 }

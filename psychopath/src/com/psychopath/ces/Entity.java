@@ -39,6 +39,10 @@ public final class Entity {
 		return this;
 	}
 	
+	public void removeAllComponents(){
+		cm.removeAllComponents(this);
+	}
+	
 	/** GET **/
 	public Component getComponent(ComponentType type){
 		return cm.getComponent(this, type);
