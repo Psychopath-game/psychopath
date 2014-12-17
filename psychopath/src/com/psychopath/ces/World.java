@@ -52,6 +52,20 @@ public class World {
 		addManager(em);
 	}
 	
+	/**
+	 * Initialize all managers & systems
+	 * Must be call to provide all World.methods
+	 */
+	public void init() {
+        for (int i = 0; i < managers.size(); i++)
+        	managers.get(i).init();
+        
+        for (int i = 0; i < systems.size(); i++) {
+            //ComponentMapperInitHelper.config(systems.get(i), this);
+            systems.get(i).init();
+        }
+	}
+	
 	
 	/**
 	 * Method to run all process() and to notify everyone
@@ -71,28 +85,28 @@ public class World {
 		dispatcher(removed, new Notifier() {
 			@Override
 			public void notify(Entity e, IListener handler) {
-				handler.added(e);
+				handler.removed(e);
 			}
 		});
 		
 		dispatcher(changed, new Notifier() {
 			@Override
 			public void notify(Entity e, IListener handler) {
-				handler.added(e);
+				handler.changed(e);
 			}
 		});
 		
 		dispatcher(enabled, new Notifier() {
 			@Override
 			public void notify(Entity e, IListener handler) {
-				handler.added(e);
+				handler.enabled(e);
 			}
 		});
 		
 		dispatcher(disabled, new Notifier() {
 			@Override
 			public void notify(Entity e, IListener handler) {
-				handler.added(e);
+				handler.disabled(e);
 			}
 		});
 		
@@ -106,6 +120,30 @@ public class World {
 	}
 	
 	
+	/** ENTITIES **/
+	public Entity createEntity(){
+		return em.createEntity();
+	}
+	
+	protected void addEntity(Entity e){
+		added.add(e);
+	}
+	
+	protected void changeEntity(Entity e){
+		changed.add(e);
+	}
+	
+	protected void removeEntity(Entity e){
+		removed.add(e);
+	}
+	
+	protected void disableEntity(Entity e){
+		disabled.add(e);
+	}
+	
+	protected void enableEntity(Entity e){
+		enabled.add(e);
+	}
 	
 	
 	// TODO: Voir pour combiner Manager et System sous une même classe abstraite pour réduire le code dupliqué (qu'on retrouve dans leurs classes)

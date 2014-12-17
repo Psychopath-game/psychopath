@@ -10,11 +10,15 @@ import com.psychopath.ces.tools.CustomList;
  */
 public final class Entity {
 	private int id;
+	private World world;
 	private ComponentManager cm;
+	private EntityManager em;
 	
-	protected Entity(int id, ComponentManager cm){
+	protected Entity(World w, int id){
 		this.id = id;
-		this.cm = cm;
+		this.world = w;
+		this.cm = world.getComponentManager();
+		this.em = world.getEntityManager();
 	}
 	
 	
@@ -50,6 +54,27 @@ public final class Entity {
 	
 	public CustomList<Component> getAllComponents(){
 		return cm.getAllComponents(this);
+	}
+	
+	/** WORLD **/
+	public void addToWorld(){
+		world.addEntity(this);
+	}
+	
+	public void removeFromWorld(){
+		world.removeEntity(this);
+	}
+	
+	public void changedInWorld(){
+		world.changeEntity(this);
+	}
+	
+	public void enable(){
+		world.enableEntity(this);
+	}
+	
+	public void disable(){
+		world.disableEntity(this);
 	}
 	
 	

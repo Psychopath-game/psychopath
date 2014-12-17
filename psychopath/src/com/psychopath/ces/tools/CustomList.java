@@ -86,4 +86,13 @@ public class CustomList<T> implements IPsychoList<T> {
 			return items[index];
 		return null;
 	}
+	
+	public T removeLast(){
+		if(size == 0)
+			return null;
+		
+		T temp = items[--size];
+		items[size] = null;
+		return temp;
+	}
 }

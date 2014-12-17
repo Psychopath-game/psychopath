@@ -7,13 +7,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import com.psychopath.ces.Entity;
+import com.psychopath.ces.World;
+
 
 public class PsychopathGame extends BasicGame {
 
 	private GameContainer container;
+	private World world;
 	
 	/**
-	 * Point d'entré
+	 * Point d'entrï¿½
 	 */
 	public static void main(String[] args) throws SlickException {
         new AppGameContainer(new PsychopathGame(), 640, 480, false).start();
@@ -21,6 +25,13 @@ public class PsychopathGame extends BasicGame {
 	
 	public PsychopathGame() {
 		super("Psychopath");
+		world = new World();
+		world.init();
+
+		System.out.println("BEGIN");
+		Entity e = world.createEntity();
+		e.addToWorld();
+		System.out.println("END");
 	}
 
 	@Override
@@ -36,11 +47,12 @@ public class PsychopathGame extends BasicGame {
 	
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		//met à jour la scene
+		//met ï¿½ jour la scene
+		world.run(delta);
 	}
 	
 	
-	//a déplacer, permet de quitter 
+	//a dï¿½placer, permet de quitter 
 	@Override
     public void keyReleased(int key, char c) {
         if (Input.KEY_ESCAPE == key) {

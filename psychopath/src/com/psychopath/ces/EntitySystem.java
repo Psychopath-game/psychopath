@@ -25,10 +25,12 @@ abstract public class EntitySystem implements IListener {
 		excludeTypes = new CustomList<ComponentType>(2);
 		
 		entities = new CustomList<Entity>();
+		
+		setTypesConfiguration();
 	}
 	
-	
-	protected abstract void setTypesConfiguration();
+	public abstract void init();
+	protected abstract void setTypesConfiguration(); // permet de définir la liste des Components à valider/refuser etc..
 
 	
 	public final void process(){

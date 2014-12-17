@@ -12,7 +12,12 @@ public class ComponentManager extends Manager {
 	private CustomList<Entity> entitiesToRemove;
 	
 	
-	protected void init(){
+	public ComponentManager(){
+		
+	}
+	
+	
+	public void init(){
 		entitiesToRemove = new CustomList<Entity>();
 	}
 	
@@ -117,6 +122,8 @@ public class ComponentManager extends Manager {
 		// We don't remove all components of the Entity here, cause it's not fast. We store the Entity and we'll call clean only one time by process !
 		entitiesToRemove.add(e);
 	}
+	
+	
 	// si on delete
 	public void clean(){
 		if(entitiesToRemove.size() == 0)

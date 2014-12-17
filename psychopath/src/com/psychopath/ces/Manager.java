@@ -1,9 +1,9 @@
 package com.psychopath.ces;
 
 public abstract class Manager implements IListener {
-	private World world;
+	protected World world;
 	
-	protected abstract void init();
+	public abstract void init();
 	
 	public World getWorld(){
 		return world;
@@ -16,7 +16,7 @@ public abstract class Manager implements IListener {
 	
 	@Override
 	public void added(Entity e) {
-		
+		System.out.println("Entity added");
 	}
 
 	@Override
