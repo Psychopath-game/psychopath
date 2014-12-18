@@ -31,7 +31,7 @@ public class EntityManager extends Manager {
 	}
 	
 	@Override
-	public void init() {
+	protected void init() {
 		
 	}
 	

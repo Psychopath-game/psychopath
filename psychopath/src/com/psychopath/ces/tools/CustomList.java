@@ -95,4 +95,8 @@ public class CustomList<T> implements IPsychoList<T> {
 		items[size] = null;
 		return temp;
 	}
+	
+	public boolean isIn(int index){
+		return index < items.length;
+	}
 }

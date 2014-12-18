@@ -3,7 +3,7 @@ package com.psychopath.ces;
 public abstract class Manager implements IListener {
 	protected World world;
 	
-	public abstract void init();
+	protected abstract void init();
 	
 	public World getWorld(){
 		return world;

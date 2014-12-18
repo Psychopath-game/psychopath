@@ -17,9 +17,8 @@ public class ComponentManager extends Manager {
 		entitiesToRemove = new CustomList<Entity>();
 	}
 	
-	
-	public void init(){
-	}
+	@Override
+	protected void init(){ }
 	
 	/** 
 	 * Add a component to an Entity (bind)
