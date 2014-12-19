@@ -5,7 +5,7 @@ import com.psychopath.ces.tools.CustomList;
 /**
  * Process method on Entities
  * 
- * @example  	La gravité sur les Entity possèdant un composant Gravity doivent être traités par un GravitySystem extends EntitySystem.
+ * @example  	A GravitySystem which calculate all positions for object linked to a GravityComponent
  * @author  	Spoke
  *
  */

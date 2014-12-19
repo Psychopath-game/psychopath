@@ -118,7 +118,8 @@ public class World {
 		// Certains managers ont besoin d'un appel particulier
 		cm.clean();
 		
-		// On procède au traitement par les systemes
+		
+		// Processing all systems in order
 		for(int i = 0; i < systems.size(); i++){
 			systems.get(i).process();
 		}
@@ -150,10 +151,9 @@ public class World {
 		enabled.add(e);
 	}
 	
+
+	/* MANAGERS */
 	
-	// TODO: Voir pour combiner Manager et System sous une même classe abstraite pour réduire le code dupliqué (qu'on retrouve dans leurs classes)
-	// Ici on a pas trop le choix car il faut les distinguer dans les Listes..
-	/** MANAGERS **/
 	
 	public ComponentManager getComponentManager(){
 		return cm;
@@ -163,6 +163,10 @@ public class World {
 		return em;
 	}
 	
+	/**
+	 * Add a Manager to the world.
+	 * @return
+	 */
 	public <T extends Manager> T addManager(T m){
 		managers.add(m);
 		managersMap.put(m.getClass(), m);
@@ -185,8 +189,14 @@ public class World {
 			notifier.notify(e, managers.get(i));
 	}
 	
-	/** SYSTEMS **/
+	/* SYSTEMS */
 	
+	/**
+	 * Add a System to the world.
+	 * The order you added systems is really important : it's the order of process()
+	 * @param s
+	 * @return
+	 */
 	public <T extends EntitySystem> T addSystem(T s){
 		systems.add(s);
 		systemsMap.put(s.getClass(), s);
