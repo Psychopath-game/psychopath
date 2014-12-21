@@ -71,6 +71,11 @@ public class TagManager extends Manager {
 	}
 	
 	
+	@Override
+	public void removed(Entity e){
+		remove(e);
+	}
+	
 	
 	@Override
 	protected void init() {}
